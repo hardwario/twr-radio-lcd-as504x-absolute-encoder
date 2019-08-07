@@ -1,6 +1,6 @@
 <a href="https://www.bigclown.com/"><img src="https://bigclown.sirv.com/logo.png" width="200" alt="BigClown Logo" align="right"></a>
 
-# Austria Microsystems as504x on-axis absolute magnetic encoder example
+# Austria Microsystems as5040/5 on-axis absolute magnetic encoder example
 
 If you want to get more information about Core Module, firmware and how to work with it, please follow this link:
 

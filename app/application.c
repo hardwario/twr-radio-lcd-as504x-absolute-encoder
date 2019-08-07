@@ -1,5 +1,19 @@
 #include <application.h>
-#include "as5045.h"
+#include "as504x.h"
+
+/*
+
+Sensor Module Connection
+
+CS      BC_GPIO_P4  A
+CLK     BC_GPIO_P5  B
+MISO    BC_GPIO_P7  C
+
+Supported sensors:
+AS5045
+AS5040
+
+*/
 
 // LED instance
 bc_led_t led;
@@ -18,7 +32,7 @@ float radio_value;
 // Pointer to GFX instance
 bc_gfx_t *pgfx;
 
-void as5045_task(void *param);
+void as504x_task(void *param);
 void radio_task(void *param);
 
 void start_lcd(void);
@@ -51,15 +65,15 @@ void application_init(void)
     bc_radio_init(BC_RADIO_MODE_NODE_SLEEPING);
     bc_radio_pairing_request("magnetic-encoder", VERSION);
 
-    //bc_as5045_init();
-    //bc_as5045_init_sw_spi(BC_GPIO_P15, BC_GPIO_P14, BC_GPIO_P12);
+    //bc_as504x_init();
+    //bc_as504x_init_sw_spi(BC_GPIO_P15, BC_GPIO_P14, BC_GPIO_P12);
 
     // Sensor module
-    bc_as5045_init_sw_spi(BC_GPIO_P4, BC_GPIO_P5, BC_GPIO_P7);
+    bc_as504x_init_sw_spi(BC_GPIO_P4, BC_GPIO_P5, BC_GPIO_P7);
 
-    angle_current = angle_last = bc_as5045_get_angle();
+    angle_current = angle_last = bc_as504x_get_angle();
 
-    bc_scheduler_register(as5045_task, NULL, 0);
+    bc_scheduler_register(as504x_task, NULL, 0);
     bc_scheduler_register(radio_task, NULL, 0);
 
     start_lcd();
@@ -79,7 +93,7 @@ void lcd_task(void *param)
 
     bc_gfx_set_font(pgfx, &bc_font_ubuntu_24);
     bc_gfx_printf(pgfx, 20, 2, 1, "%4.3f", combined);
-    bc_gfx_update(pgfx);
+
 
     int center_x = 64;
     int center_y = 74;
@@ -93,6 +107,8 @@ void lcd_task(void *param)
     bc_gfx_draw_line(pgfx, center_x, center_y, center_x + sin(radianVal) * radius, center_y + cos(radianVal) * radius, 1 );
 
     bc_gfx_draw_circle(pgfx, center_x, center_y, radius, 1);
+
+    bc_gfx_update(pgfx);
 
     bc_scheduler_plan_current_from_now(50);
 }
@@ -141,11 +157,11 @@ void radio_task(void *param)
     bc_scheduler_plan_current_from_now(100);
 }
 
-void as5045_task(void *param)
+void as504x_task(void *param)
 {
     (void) param;
 
-    angle_current = bc_as5045_get_angle();
+    angle_current = bc_as504x_get_angle();
 
     if(angle_last < 1024 && angle_current > 1024 * 3)
     {

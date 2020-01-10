@@ -43,6 +43,14 @@ void bc_as504x_init_sw_spi(bc_gpio_channel_t cs, bc_gpio_channel_t clk, bc_gpio_
     bc_timer_init();
 }
 
+void bc_as504x_init_sw_spi_deinit()
+{
+    bc_module_sensor_set_vdd(false);
+
+    bc_gpio_set_output(_bc_as504x.cs, 0);
+    bc_gpio_set_output(_bc_as504x.clk, 0);
+}
+
 uint8_t shift_in(bc_gpio_channel_t clk, bc_gpio_channel_t data)
 {
     uint8_t ret = 0;

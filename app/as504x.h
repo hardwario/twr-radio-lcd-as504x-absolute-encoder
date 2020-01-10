@@ -8,6 +8,8 @@
 void bc_as504x_init(void);
 void bc_as504x_init_sw_spi(bc_gpio_channel_t cs, bc_gpio_channel_t clk, bc_gpio_channel_t miso);
 
+void bc_as504x_init_sw_spi_deinit();
+
 int bc_as504x_get_angle(void);
 
 #endif

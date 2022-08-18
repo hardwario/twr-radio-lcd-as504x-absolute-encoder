@@ -6,7 +6,7 @@ If you want to get more information about Core Module, firmware and how to work 
 
 **https://developers.hardwario.com/firmware/basic-overview/**
 
-User's application code (business logic) goes into `app/application.c`.
+User's application code (business logic) goes into `src/application.c`.
 
 ## License
 
